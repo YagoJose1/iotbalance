@@ -102,51 +102,6 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* Critical Devices */}
-        {criticalDevices.length > 0 && (
-          <div className="mb-6 sm:mb-8">
-            <div className="mb-4 sm:mb-6">
-              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-danger">
-                Dispositivos Críticos
-              </h2>
-              <p className="text-xs sm:text-sm text-muted-foreground">
-                Nível abaixo de 15% - Reposição urgente necessária
-              </p>
-            </div>
-            <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {criticalDevices.map(device => (
-                <DeviceCard
-                  key={device.id}
-                  device={device}
-                  onClick={() => handleDeviceClick(device.id)}
-                />
-              ))}
-            </div>
-          </div>
-        )}
-
-        {/* Warning Devices */}
-        {warningDevices.length > 0 && (
-          <div className="mb-6 sm:mb-8">
-            <div className="mb-4 sm:mb-6">
-              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-warning">
-                Dispositivos em Aviso
-              </h2>
-              <p className="text-xs sm:text-sm text-muted-foreground">
-                Nível entre 15% e 30% - Planejar reposição em breve
-              </p>
-            </div>
-            <div className="grid gap-4 sm:gap-6 sm:grid-cols-2 lg:grid-cols-3">
-              {warningDevices.map(device => (
-                <DeviceCard
-                  key={device.id}
-                  device={device}
-                  onClick={() => handleDeviceClick(device.id)}
-                />
-              ))}
-            </div>
-          </div>
-        )}
 
         {/* All Devices */}
         <div>

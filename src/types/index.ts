@@ -18,7 +18,6 @@ export interface MqttConfig {
   password?: string;
   topicPrefix: string;
   useTls: boolean;
-  clientId?: string;
 }
 
 export interface Organization {

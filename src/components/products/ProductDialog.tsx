@@ -78,20 +78,6 @@ export const ProductDialog = ({ open, onOpenChange, onSave, product, organizatio
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="organization">Cliente</Label>
-            <Select value={organizationId} onValueChange={setOrganizationId} required>
-              <SelectTrigger>
-                <SelectValue placeholder="Selecione o cliente" />
-              </SelectTrigger>
-              <SelectContent>
-                {organizations.map(org => (
-                  <SelectItem key={org.id} value={org.id}>{org.name}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
           <div className="grid gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="density">Densidade (kg/L - opcional)</Label>

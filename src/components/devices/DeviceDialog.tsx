@@ -107,20 +107,7 @@ export const DeviceDialog = ({ open, onOpenChange, onSave, device, organizations
             </div>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="organization">Cliente</Label>
-            <Select value={organizationId} onValueChange={setOrganizationId} required>
-              <SelectTrigger>
-                <SelectValue placeholder="Selecione o cliente" />
-              </SelectTrigger>
-              <SelectContent>
-                {organizations.map(org => (
-                  <SelectItem key={org.id} value={org.id}>{org.name}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
+          
           <div className="grid gap-4 md:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="location">Local</Label>

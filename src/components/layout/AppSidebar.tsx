@@ -13,14 +13,13 @@ import {
 } from "@/components/ui/sidebar";
 
 const menuItems = [
-  { title: "Dashboard", url: "/dashboard", icon: Home },
-  { title: "Clientes", url: "/dashboard/clients", icon: Building2 },
-  { title: "Locais", url: "/dashboard/locations", icon: MapPin },
-  { title: "Zonas", url: "/dashboard/zones", icon: Grid3x3 },
-  { title: "Dispositivos", url: "/dashboard/devices", icon: Activity },
-  { title: "Produtos", url: "/dashboard/products", icon: Package },
-  { title: "Relatórios", url: "/dashboard/reports", icon: BarChart3 },
-  { title: "Configurações", url: "/dashboard/settings", icon: Settings },
+  { title: "Dashboard", url: "/", icon: Home },
+  { title: "Locais", url: "/locations", icon: MapPin },
+  { title: "Zonas", url: "/zones", icon: Grid3x3 },
+  { title: "Dispositivos", url: "/devices", icon: Activity },
+  { title: "Produtos", url: "/products", icon: Package },
+  { title: "Relatórios", url: "/reports", icon: BarChart3 },
+  { title: "Configurações", url: "/settings", icon: Settings },
 ];
 
 export function AppSidebar() {
