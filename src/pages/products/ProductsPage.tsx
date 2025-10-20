@@ -59,6 +59,22 @@ const ProductsPage = () => {
     });
   };
 
+  // 🗑️ NOVA FUNÇÃO: Remover produto
+  const handleDelete = (product: Product) => {
+    if (!confirm(`Tem certeza que deseja remover o produto "${product.name}"?`)) return;
+
+    const newData = { ...data };
+    newData.products = newData.products.filter(p => p.id !== product.id);
+
+    saveMockData(newData);
+    setData(newData);
+
+    toast({
+      title: "Produto removido",
+      description: `${product.name} foi removido com sucesso.`,
+    });
+  };
+
   return (
     <div className="space-y-6 p-4 sm:p-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
@@ -109,7 +125,7 @@ const ProductsPage = () => {
                 <div className="text-xs sm:text-sm text-muted-foreground mb-2">
                   {assignmentCount} dispositivo{assignmentCount !== 1 ? "s" : ""} em uso
                 </div>
-                <div className="flex gap-2">
+                <div className="flex flex-wrap gap-2">
                   <Button 
                     size="sm" 
                     variant="outline" 
@@ -125,6 +141,14 @@ const ProductsPage = () => {
                     className="flex-1 text-xs"
                   >
                     {product.active ? "Desativar" : "Ativar"}
+                  </Button>
+                  <Button
+                    size="sm"
+                    variant="destructive"
+                    onClick={() => handleDelete(product)}
+                    className="flex-1 text-xs"
+                  >
+                    Remover
                   </Button>
                 </div>
               </div>

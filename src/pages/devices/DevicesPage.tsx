@@ -112,7 +112,7 @@ const DevicesPage = () => {
         const location = data.locations.find(l => l.id === device.locationId);
 
           return (
-            <Link key={device.id} to={`/dashboard/devices/${device.id}`}>
+            <Link key={device.id} to={`/devices/${device.id}`}>
               <Card className="p-4 sm:p-6 hover:border-primary/50 transition-all cursor-pointer">
                 <div className="flex items-start justify-between mb-4">
                   <Activity className={`h-6 w-6 sm:h-8 sm:w-8 ${getStatusColor(device.currentPercent)}`} />

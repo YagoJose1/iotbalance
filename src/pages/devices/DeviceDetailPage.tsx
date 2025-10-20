@@ -5,16 +5,22 @@ import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ArrowLeft, Activity, Battery, Signal, Thermometer } from "lucide-react";
-import { loadMockData, generateWeightHistory } from "@/lib/mockData";
+import { ArrowLeft, Activity, Battery, Signal, Thermometer, Edit } from "lucide-react";
+import { loadMockData, generateWeightHistory, saveMockData } from "@/lib/mockData";
 import { WeightChart } from "@/components/device/WeightChart";
 import { ConsumptionHistory } from "@/components/device/ConsumptionHistory";
 import { DevicePolicyConfig } from "@/components/device/DevicePolicyConfig";
+import { DeviceDialog } from "@/components/devices/DeviceDialog";
+import type { Device } from "@/types";
+import { useToast } from "@/hooks/use-toast";
 
 const DeviceDetailPage = () => {
   const { id } = useParams();
-  const [data] = useState(loadMockData());
-  
+  const { toast } = useToast();
+  const [data, setData] = useState(loadMockData());
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [editingDevice, setEditingDevice] = useState<Device | null>(null);
+
   const device = data.devices.find(d => d.id === id);
   const assignment = data.deviceAssignments?.find(
     a => a.deviceId === id && !a.endedAt
@@ -30,7 +36,7 @@ const DeviceDetailPage = () => {
   if (!device) {
     return (
       <div className="space-y-6">
-        <Link to="/dashboard/devices">
+        <Link to="/devices">
           <Button variant="outline">
             <ArrowLeft className="mr-2 h-4 w-4" />
             Voltar
@@ -51,9 +57,29 @@ const DeviceDetailPage = () => {
     return "text-success";
   };
 
+  const handleEditClick = () => {
+    setEditingDevice(device);
+    setDialogOpen(true);
+  };
+
+  const handleSave = (updated: Partial<Device>) => {
+    const newData = { ...data };
+    const index = newData.devices.findIndex(d => d.id === device.id);
+    if (index >= 0) {
+      newData.devices[index] = { ...newData.devices[index], ...updated };
+      saveMockData(newData);
+      setData(newData);
+      toast({ title: "Dispositivo atualizado com sucesso!" });
+    } else {
+      toast({ title: "Erro ao atualizar dispositivo", variant: "destructive" });
+    }
+    setDialogOpen(false);
+    setEditingDevice(null);
+  };
+
   return (
     <div className="space-y-6">
-      <Link to="/dashboard/devices">
+      <Link to="/devices">
         <Button variant="outline">
           <ArrowLeft className="mr-2 h-4 w-4" />
           Voltar
@@ -65,9 +91,18 @@ const DeviceDetailPage = () => {
           <h1 className="text-3xl font-bold">{device.serial}</h1>
           <p className="text-muted-foreground">{product?.name || "Sem produto vinculado"}</p>
         </div>
-        <Badge variant={device.status === 'active' ? 'default' : 'secondary'}>
-          {device.status}
-        </Badge>
+
+        <div className="flex items-center gap-3">
+          <Badge variant={device.status === 'active' ? 'default' : 'secondary'}>
+            {device.status}
+          </Badge>
+
+          {/* Botão Editar */}
+          <Button variant="ghost" onClick={handleEditClick} className="h-8">
+            <Edit className="mr-2 h-4 w-4" />
+            Editar
+          </Button>
+        </div>
       </div>
 
       {/* Status Cards */}
@@ -183,6 +218,17 @@ const DeviceDetailPage = () => {
           <DevicePolicyConfig device={device} policies={policies} />
         </TabsContent>
       </Tabs>
+
+      {/* DeviceDialog para edição */}
+      <DeviceDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        onSave={handleSave}
+        device={editingDevice}
+        organizations={data.organizations}
+        locations={data.locations}
+        zones={data.zones}
+      />
     </div>
   );
 };
